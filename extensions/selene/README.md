@@ -2,14 +2,16 @@
 
 Minimal light and dark theme for [Hermes WebUI](https://github.com/nesquena/hermes-webui), with a centered welcome composer, a files and tools menu, responsive controls and a unified sidebar with a pinned profile switcher.
 
-![Selene on desktop in dark mode](screenshots/desktop-dark.png)
+![Selene conversation on desktop in dark mode](screenshots/desktop-dark.png)
 
 <p>
-  <img src="screenshots/mobile-dark.png" alt="Selene on mobile in dark mode" width="270">
+  <img src="screenshots/mobile-dark.png" alt="Selene conversation on mobile in dark mode" width="270">
   <img src="screenshots/sidebar-dark.png" alt="Indented Explore Hermes navigation" width="260">
 </p>
 
-![Selene on desktop in light mode](screenshots/desktop-light.png)
+![Selene conversation on desktop in light mode](screenshots/desktop-light.png)
+
+The main screenshots show a real Hermes-rendered demo conversation about a fictional website: a user bubble, assistant checklist, JavaScript code and native message actions. [Mobile Light](screenshots/mobile-light.png) shows the same conversation in the other palette. Private history is hidden.
 
 ## What changes
 
