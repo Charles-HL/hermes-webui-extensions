@@ -1,6 +1,6 @@
-# Selene — a ChatGPT-inspired theme for Hermes WebUI
+# Selene
 
-Selene is a **ChatGPT-inspired theme for [Hermes WebUI](https://github.com/nesquena/hermes-webui)**, bringing a familiar ChatGPT-style interface to Hermes Agent on desktop and mobile. It combines light and dark themes, responsive chat controls and a cleaner sidebar while keeping its own name and Hermes branding.
+Minimal light and dark theme for [Hermes WebUI](https://github.com/nesquena/hermes-webui), with a centered welcome composer, a files and tools menu, responsive controls and a unified sidebar with a pinned profile switcher.
 
 ![Selene on desktop in dark mode](screenshots/desktop-dark.png)
 
@@ -11,17 +11,13 @@ Selene is a **ChatGPT-inspired theme for [Hermes WebUI](https://github.com/nesqu
 
 ![Selene on desktop in light mode](screenshots/desktop-light.png)
 
-## ChatGPT-style appearance, native Hermes features
-
-For users looking for a Hermes WebUI theme that looks like ChatGPT, Selene adapts the spacing, typography, composer, menus and motion. It preserves Hermes' native model, reasoning, profile and tool controls. Install it as a custom theme extension without forking Hermes or building a custom image.
-
 ## What changes
 
 - Light and dark palettes, restrained typography, rounded menus and visible keyboard focus.
 - A centered welcome composer, conversation title in the header and a compact mobile composer.
 - One row for add, model, reasoning, microphone and send. On mobile, reasoning uses its native brain icon; long model names use ellipsis.
 - A unified sidebar with indented secondary navigation under **Explore Hermes**, a search toggle and a native profile switcher.
-- Sidebar navigation and lists scroll together below the fixed header.
+- Sidebar navigation and lists scroll together between the fixed header and pinned profile footer.
 - Menu and drawer transitions that respect reduced-motion preferences.
 
 Selene is **not a Hermes fork**. It uses Hermes WebUI's extension loader and `window.registerHermesSkin()`. CSS handles styling; a small JavaScript presentation layer moves existing controls, retains their IDs and handlers, and restores their original positions when another skin is selected. It changes some layout and navigation presentation, so it is more than an accent-only CSS skin.
@@ -36,7 +32,13 @@ The tested build preserves extension skin selection in browser-local preferences
 
 ## Install
 
-Selene is currently distributed from this repository. It is **not yet listed in the community gallery**. The [gallery submission](https://github.com/hermes-webui/hermes-webui-extensions/pull/100) is open and awaiting maintainer review.
+### Community gallery
+
+Open **Settings → Extensions**, find **Selene**, and install it. Reload the page, then choose **Settings → Appearance → Skin/Style → Selene** and select Light, Dark or System.
+
+If your gallery does not include Selene yet, use the manual installation below. Gallery availability follows the library's registry publication.
+
+### Manual installation
 
 ### Local installation
 
@@ -46,7 +48,7 @@ Clone the repository on the machine that runs Hermes WebUI:
 git clone https://github.com/Charles-HL/hermes-webui-selene.git
 ```
 
-Alternatively, download `selene-1.0.0.zip` from [Releases](https://github.com/Charles-HL/hermes-webui-selene/releases), then extract it. The archive contains a `selene/` directory with `manifest.json` and `assets/`.
+Alternatively, download the latest `selene-*.zip` from [Releases](https://github.com/Charles-HL/hermes-webui-selene/releases), then extract it. The archive contains a `selene/` directory with `manifest.json` and `assets/`.
 
 Point the WebUI process at the extracted directory or checkout:
 
@@ -97,16 +99,20 @@ Keep your other entries in that array. Relative paths resolve from the bundle ma
 
 Update the checkout with `git pull`, or replace the release's `manifest.json`, `extension.json` and complete `assets/` directory, then reload the browser. Fully close and reopen a cached installed app if necessary. An environment change requires restarting/recreating the WebUI service; an asset-only update normally does not.
 
-To disable the presentation immediately, choose another skin in Appearance. To uninstall, remove Selene's entry from your bundle, or remove its two environment variables if it is your only manually configured extension. Restart WebUI and remove the package after selecting another skin. Conversation data and Agent configuration are unaffected.
+To disable the presentation immediately, choose another skin in Appearance. For a gallery installation, disable or uninstall Selene in **Settings → Extensions** and reload. For a manual installation, remove Selene's entry from your bundle, or remove its two environment variables if it is your only manually configured extension. Restart WebUI and remove the package after selecting another skin. Conversation data and Agent configuration are unaffected.
 
 ## Community gallery
 
-Hermes WebUI already supports community extensions through [hermes-webui-extensions](https://github.com/hermes-webui/hermes-webui-extensions), including skin extensions. `extension.json` describes Selene's assets and behavior for a future library submission; it does not mean the theme has been reviewed or accepted.
+Hermes WebUI already supports community extensions through [hermes-webui-extensions](https://github.com/hermes-webui/hermes-webui-extensions), including skin extensions. The [library submission](https://github.com/hermes-webui/hermes-webui-extensions/pull/100) tracks review and publication.
 
 The preferred contribution is a PR to that extension library, where maintainers can review the package and make it available through **Settings → Extensions**. A core WebUI PR is not required to install Selene. See [contribution notes](docs/CONTRIBUTING.md).
 
+## Navigation and control behavior
+
+User-hidden composer controls stay hidden. Clicking an already active navigation tab retains Hermes' native sidebar collapse behavior. A collapsed desktop sidebar keeps the native rail; its New conversation header action appears only when the sidebar is collapsed. The mobile drawer uses the viewport width up to 360 px. Mobile composer controls have 44 px touch targets, and the `+` menu exposes the native context usage and compression row. Provider quota values and project chips remain visible. The centered conversation title retains native rename/tap handlers; Reload remains a global header action.
+
 ## Compatibility and scope
 
-The theme is a visual adaptation, not a complete reproduction of ChatGPT or its features. Model and reasoning choices, permissions, approvals, tools, speech services and streaming remain provided by Hermes. Profile/model switching internals and real-device keyboard behavior were not exhaustively tested. See [validation notes](docs/VALIDATION.md).
+The theme adapts presentation while keeping native Hermes features. Model and reasoning choices, permissions, approvals, tools, speech services and streaming remain provided by Hermes. Profile/model switching internals and real-device keyboard behavior were not exhaustively tested. See [validation notes](docs/VALIDATION.md).
 
-MIT licensed. Independent project; not affiliated with OpenAI, Nous Research or the Hermes WebUI maintainers. No OpenAI logos, proprietary fonts or application source are bundled. The Hermes mark shown in screenshots is rendered by the installed WebUI, not redistributed as a separate asset.
+MIT licensed. Independent community extension.
