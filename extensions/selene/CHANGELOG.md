@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.5 — 2026-10-07
+
+- Keep native toast notifications above the theme header, mobile drawer and profile menu.
+
 ## 1.1.4 — 2026-10-07
 
 - Keep the native Kanban, Skills and Settings search fields visible; only the chat list's search sits behind the toggle.

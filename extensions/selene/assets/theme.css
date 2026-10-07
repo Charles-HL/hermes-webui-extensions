@@ -1101,3 +1101,6 @@
     }
   }
 }
+
+/* Native notifications must sit above the header, drawer and profile menu. */
+:root[data-skin="selene"] .toast { z-index: 600; }
