@@ -66,3 +66,5 @@ Installed follow-up on 1.1.3: `sessionList` computed to overflow auto with a bou
 ## Toast layering (1.1.5)
 
 Synced the merged gallery 1.1.4 runtime and demo-only mobile preview before this fix. A native-template fixture checked a toast overlapping the header at desktop1200/mobile390: the toast layer is600, above header300 and drawer400; hit-testing the overlapping area resolves to the toast, and its Dismiss button works. Native timing and notification logic are unchanged.
+
+Maintainer follow-up: at Core's 24px offset a raised toast covered the centers of the header's hamburger, New conversation and Reload buttons at 390px, and New conversation at 1200px with the sidebar collapsed (a 20-second error toast held them for its whole lifetime). The toast now starts at 60px, below the 52px header. On Core `2e0557328` with the installed theme, all three header buttons stay hit-testable with an error toast showing at 1200px (sidebar open and collapsed) and 390px, Dismiss stays hit-testable, the toast still layers over the open mobile drawer, and Core's confirm dialog still covers it.

@@ -3,6 +3,7 @@
 ## 1.1.5 — 2026-10-07
 
 - Keep native toast notifications above the theme header, mobile drawer and profile menu.
+- Show toasts just below the 52px header, so an error toast can't cover the hamburger, New conversation or Reload buttons.
 
 ## 1.1.4 — 2026-10-07
 

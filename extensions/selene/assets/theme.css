@@ -1102,5 +1102,7 @@
   }
 }
 
-/* Native notifications must sit above the header, drawer and profile menu. */
-:root[data-skin="selene"] .toast { z-index: 600; }
+/* Native notifications must sit above the header, drawer and profile menu.
+   Start below the 52px header so a toast never covers its hamburger,
+   New conversation or Reload buttons. */
+:root[data-skin="selene"] .toast { z-index: 600; top: 60px; }
