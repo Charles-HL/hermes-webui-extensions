@@ -171,6 +171,7 @@
 
     }
     const list = document.getElementById("sessionList");
+    const listScrollTop = list?.scrollTop || 0;
     if (list) {
       const heading = document.createElement("div");
       heading.className = "theme-session-heading";
@@ -339,9 +340,24 @@
         if (node) move(node, scroll);
       }
     }
+    // Reparenting can reset the native scroller without a final scroll event.
+    // Let Core recompute its real virtual window after layout/viewport changes;
+    // do not reproduce its row-height calculation in this theme.
+    let listFrame;
+    if (list) {
+      const notifyList = () => list.dispatchEvent(new Event("scroll"));
+      const listResize = new ResizeObserver(notifyList);
+      listResize.observe(list);
+      listFrame = requestAnimationFrame(() => {
+        list.scrollTop = listScrollTop;
+        notifyList();
+      });
+      undo.push(() => { listResize.disconnect(); cancelAnimationFrame(listFrame); });
+    }
     cleanup = () => {
       // Restore moved nodes before removing their temporary containers.
       for (const fn of undo.slice().reverse()) fn();
+      list?.dispatchEvent(new Event("scroll"));
       cleanup = undefined;
     };
     return true;

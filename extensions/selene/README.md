@@ -118,3 +118,17 @@ User-hidden composer controls stay hidden. Clicking an already active navigation
 The theme adapts presentation while keeping native Hermes features. Model and reasoning choices, permissions, approvals, tools, speech services and streaming remain provided by Hermes. Profile/model switching internals and real-device keyboard behavior were not exhaustively tested. See [validation notes](docs/VALIDATION.md).
 
 MIT licensed. Independent community extension.
+## Virtual-list compatibility
+
+Selene preserves the native session-list scroll offset when mounting and notifies
+Core's own scroll handler after list resizing and theme removal. Core remains
+responsible for the virtual window and row calculation; the theme does not
+render a synthetic conversation list.
+
+The real-Core regression imports 120 isolated sessions through the backend and
+checks switching from a scrolled Default list, first/last-session reachability,
+viewport resizing, and restoration to Default:
+
+```sh
+HERMES_CORE_DIR=/path/to/hermes-webui python tests/compatibility/selene_virtual_list_smoke.py
+```
