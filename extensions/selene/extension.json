@@ -1,0 +1,55 @@
+{
+  "id": "selene",
+  "name": "Selene",
+  "description": "Minimal light and dark theme with a centered composer, a files and tools menu, and a unified sidebar with a pinned profile switcher.",
+  "version": "1.1.4",
+  "author": "Charles-HL",
+  "assets": {
+    "scripts": [
+      "assets/theme.js",
+      "assets/layout.js"
+    ],
+    "stylesheets": [
+      "assets/theme.css"
+    ]
+  },
+  "capabilities": [
+    "manifest-bundle"
+  ],
+  "lifecycle": {
+    "webui_restart_required": false,
+    "sidecar_start_required": false,
+    "native_host_start_required": false,
+    "native_host_autostart": "none"
+  },
+  "screenshots": [
+    "screenshots/desktop-dark.png",
+    "screenshots/mobile-dark.png",
+    "screenshots/desktop-light.png",
+    "screenshots/sidebar-dark.png",
+    "screenshots/mobile-light.png"
+  ],
+  "permissions": {
+    "webui_api": {
+      "read": [],
+      "write": []
+    },
+    "webui_navigation": true,
+    "dom": {
+      "owned": true,
+      "mutates_core_views": true
+    },
+    "storage": {
+      "owned": [],
+      "shared_webui_keys": []
+    },
+    "loopback_sidecar": false,
+    "native_host": false,
+    "filesystem": {
+      "arbitrary": false,
+      "serves_bundled_assets": true
+    },
+    "network_external": false,
+    "registers_skin": true
+  }
+}

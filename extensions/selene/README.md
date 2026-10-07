@@ -1,0 +1,134 @@
+# Selene
+
+Minimal light and dark theme for [Hermes WebUI](https://github.com/nesquena/hermes-webui), with a centered welcome composer, a files and tools menu, responsive controls and a unified sidebar with a pinned profile switcher.
+
+![Selene conversation on desktop in dark mode](screenshots/desktop-dark.png)
+
+<p>
+  <img src="screenshots/mobile-dark.png" alt="Selene conversation on mobile in dark mode" width="270">
+  <img src="screenshots/sidebar-dark.png" alt="Indented Explore Hermes navigation" width="260">
+</p>
+
+![Selene conversation on desktop in light mode](screenshots/desktop-light.png)
+
+The main screenshots show a real Hermes-rendered demo conversation about a fictional website: a user bubble, assistant checklist, JavaScript code and native message actions. [Mobile Light](screenshots/mobile-light.png) shows the same conversation in the other palette. Private history is hidden.
+
+## What changes
+
+- Light and dark palettes, restrained typography, rounded menus and visible keyboard focus.
+- A centered welcome composer, conversation title in the header and a compact mobile composer.
+- One row for add, model, reasoning, microphone and send. On mobile, reasoning uses its native brain icon; long model names use ellipsis.
+- A unified sidebar with indented secondary navigation under **Explore Hermes**, a search toggle and a native profile switcher.
+- The conversation list keeps its native scroller for large histories, between sidebar navigation and the pinned profile footer.
+- Menu and drawer transitions that respect reduced-motion preferences.
+
+Selene is **not a Hermes fork**. It uses Hermes WebUI's extension loader and `window.registerHermesSkin()`. CSS handles styling; a small JavaScript presentation layer moves existing controls, retains their IDs and handlers, and restores their original positions when another skin is selected. It changes some layout and navigation presentation, so it is more than an accent-only CSS skin.
+
+No core WebUI or Hermes Agent source files are patched. No build step, runtime dependencies, external fonts, telemetry, network requests or application API calls are included. The extension observes the draft textarea only to choose compact or expanded composer styling; it does not save or transmit draft text or read conversation content. Extensions still execute inside the authenticated WebUI page: review the code before installing it, as with any WebUI extension.
+
+## Requirements
+
+A Hermes WebUI build with the [extension manifest loader](https://github.com/nesquena/hermes-webui/blob/master/docs/EXTENSIONS.md) and native skin registration. Tested with WebUI build `exp-v0.52.404` in October 2026.
+
+The tested build preserves extension skin selection in browser-local preferences. Its server settings may normalize custom skin names to Default, so choose Selene separately on each browser/device. Recheck compatibility after WebUI updates: native DOM classes and component layouts may change.
+
+## Install
+
+### Community gallery
+
+Open **Settings → Extensions**, find **Selene**, and install it. Reload the page, then choose **Settings → Appearance → Skin/Style → Selene** and select Light, Dark or System.
+
+If your gallery does not include Selene yet, use the manual installation below. Gallery availability follows the library's registry publication.
+
+### Manual installation
+
+### Local installation
+
+Clone the repository on the machine that runs Hermes WebUI:
+
+```sh
+git clone https://github.com/Charles-HL/hermes-webui-selene.git
+```
+
+Alternatively, download the latest `selene-*.zip` from [Releases](https://github.com/Charles-HL/hermes-webui-selene/releases), then extract it. The archive contains a `selene/` directory with `manifest.json` and `assets/`.
+
+Point the WebUI process at the extracted directory or checkout:
+
+```sh
+export HERMES_WEBUI_EXTENSION_DIR=/absolute/path/to/hermes-webui-selene
+export HERMES_WEBUI_EXTENSION_MANIFEST=manifest.json
+```
+
+Use `/absolute/path/to/selene` instead if you extracted the release archive. Restart WebUI using your normal launch method after setting these environment variables, then reload your browser.
+
+Open **Settings → Appearance → Skin/Style → Selene**. Choose **Light**, **Dark** or **System** separately. Installing the extension does not automatically select it.
+
+### Docker / Compose
+
+Merge this fragment into your existing WebUI service, keeping its current image, state volume, ports and authentication:
+
+```yaml
+services:
+  webui:
+    volumes:
+      - ./hermes-webui-selene:/opt/webui-extensions/selene:ro
+    environment:
+      HERMES_WEBUI_EXTENSION_DIR: /opt/webui-extensions/selene
+      HERMES_WEBUI_EXTENSION_MANIFEST: manifest.json
+```
+
+Recreate the WebUI service with your normal Compose command after changing its environment or mounts. Then reload the browser and select **Selene** in Appearance. No custom image is needed.
+
+### Already using extensions?
+
+Do not replace your existing extension configuration. Put Selene under your current extension root and add its entry to your configured bundle manifest, adjusting asset paths to include the subdirectory:
+
+```json
+{
+  "extensions": [
+    {
+      "id": "selene",
+      "scripts": ["selene/assets/theme.js", "selene/assets/layout.js"],
+      "stylesheets": ["selene/assets/theme.css"]
+    }
+  ]
+}
+```
+
+Keep your other entries in that array. Relative paths resolve from the bundle manifest's directory. An explicit manual manifest takes precedence over gallery-installed manifests in the tested loader, so preserve all extensions you intend to load. See the [upstream extension documentation](https://github.com/nesquena/hermes-webui/blob/master/docs/EXTENSIONS.md) for your installation's loader behavior.
+
+## Update or remove
+
+Update the checkout with `git pull`, or replace the release's `manifest.json`, `extension.json` and complete `assets/` directory, then reload the browser. Fully close and reopen a cached installed app if necessary. An environment change requires restarting/recreating the WebUI service; an asset-only update normally does not.
+
+To disable the presentation immediately, choose another skin in Appearance. For a gallery installation, disable or uninstall Selene in **Settings → Extensions** and reload. For a manual installation, remove Selene's entry from your bundle, or remove its two environment variables if it is your only manually configured extension. Restart WebUI and remove the package after selecting another skin. Conversation data and Agent configuration are unaffected.
+
+## Community gallery
+
+Hermes WebUI already supports community extensions through [hermes-webui-extensions](https://github.com/hermes-webui/hermes-webui-extensions), including skin extensions. The [library submission](https://github.com/hermes-webui/hermes-webui-extensions/pull/100) tracks review and publication.
+
+The preferred contribution is a PR to that extension library, where maintainers can review the package and make it available through **Settings → Extensions**. A core WebUI PR is not required to install Selene. See [contribution notes](docs/CONTRIBUTING.md).
+
+## Navigation and control behavior
+
+User-hidden composer controls stay hidden. Clicking an already active navigation tab retains Hermes' native sidebar collapse behavior. A collapsed desktop sidebar keeps the native rail; its New conversation header action appears only when the sidebar is collapsed. The mobile drawer uses the viewport width up to 360 px. Mobile composer controls have 44 px touch targets, and the `+` menu exposes the native context usage and compression row. Provider quota values and project chips remain visible. The centered conversation title retains native rename/tap handlers; Reload remains a global header action.
+
+## Compatibility and scope
+
+The theme adapts presentation while keeping native Hermes features. Model and reasoning choices, permissions, approvals, tools, speech services and streaming remain provided by Hermes. Profile/model switching internals and real-device keyboard behavior were not exhaustively tested. See [validation notes](docs/VALIDATION.md).
+
+MIT licensed. Independent community extension.
+## Virtual-list compatibility
+
+Selene preserves the native session-list scroll offset when mounting and notifies
+Core's own scroll handler after list resizing and theme removal. Core remains
+responsible for the virtual window and row calculation; the theme does not
+render a synthetic conversation list.
+
+The real-Core regression imports 120 isolated sessions through the backend and
+checks switching from a scrolled Default list, first/last-session reachability,
+viewport resizing, and restoration to Default:
+
+```sh
+HERMES_CORE_DIR=/path/to/hermes-webui python tests/compatibility/selene_virtual_list_smoke.py
+```
