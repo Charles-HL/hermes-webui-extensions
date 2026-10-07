@@ -233,7 +233,10 @@
     for (const selector of extras) {
       const node = left.querySelector(selector);
       move(node, menu);
-      if (node?.tagName === "BUTTON") label(node, node.id === "providerQuotaChip" ? text("Provider quota", "Quota du fournisseur") : node.dataset.tooltip || node.getAttribute("aria-label") || node.title || "Options");
+      if (node?.tagName === "BUTTON") {
+        const quota = node.id === "providerQuotaChip";
+        label(node, quota ? text("Provider quota", "Quota du fournisseur") : node.dataset.tooltip || node.getAttribute("aria-label") || node.title || "Options", !quota);
+      }
     }
     // Core owns and updates this context row, including compression actions.
     // Moving the existing row gives mobile users access through the + menu.

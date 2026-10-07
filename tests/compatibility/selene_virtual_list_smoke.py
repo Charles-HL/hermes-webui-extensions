@@ -5,7 +5,7 @@ import tempfile
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
-from browser_smoke import _start_server, _terminate
+from browser_smoke import _install_network_guards, _is_benign_core_page_error, _start_server, _terminate
 
 ROOT = Path(__file__).resolve().parents[2]
 CORE = Path(os.environ['HERMES_CORE_DIR']).resolve()
@@ -35,8 +35,8 @@ with tempfile.TemporaryDirectory(prefix='selene-core-regression-') as trial:
         with sync_playwright() as pw:
             browser = pw.chromium.launch(headless=True,
                 executable_path=os.environ.get('HERMES_REVIEW_BROWSER_EXECUTABLE'))
-            context = browser.new_context(viewport={'width':390,'height':844})
-            context.route('**/*', lambda r: r.continue_() if r.request.url.startswith(url) else r.abort())
+            context = browser.new_context(viewport={'width':390,'height':844}, service_workers='block')
+            network_events = _install_network_guards(context)
             for i in range(120):
                 imported=context.request.post(url+'/api/session/import',data={
                     'title':f'Virtual regression {i:03d}',
@@ -45,7 +45,7 @@ with tempfile.TemporaryDirectory(prefix='selene-core-regression-') as trial:
                 assert imported.get('ok'), imported
             page=context.new_page()
             errors=[]
-            page.on('pageerror',lambda e:errors.append(str(e)))
+            page.on('pageerror',lambda e:None if _is_benign_core_page_error(str(e)) else errors.append(str(e)))
             page.goto(url)
             page.wait_for_selector('#msg')
             page.wait_for_timeout(1000)
@@ -80,6 +80,7 @@ with tempfile.TemporaryDirectory(prefix='selene-core-regression-') as trial:
             restored=snapshot(page)
             assert restored['visible']>0,restored
             assert not errors,errors
+            assert not network_events['unexpected_http'] and not network_events['unexpected_websockets'],network_events
             result={'before':before,'mounted':mounted,'top':top,'bottom':bottom,
                 'resized':resized,'restored':restored,'pageErrors':errors}
             (OUT/'results.json').write_text(json.dumps(result,indent=2))
