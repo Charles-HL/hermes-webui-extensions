@@ -386,6 +386,8 @@
 :root[data-skin="selene"] :is(.model-search-input, .model-custom-input,
   .model-provider-hint, .toolsets-dropdown-state) { border-radius: 10px; }
 :root[data-skin="selene"] :is(.skill-opt, .settings-search-result) { border-radius: 10px; }
+:root[data-skin="selene"] .session-action-menu .session-action-opt { border-radius: 10px; overflow: hidden; }
+:root[data-skin="selene"] .session-action-menu .ws-opt-name { font-size: 14px; font-weight: 400; }
 :root[data-skin="selene"] .has-tooltip::after {
   font-size: 14px;
   font-weight: 400;
@@ -1077,5 +1079,25 @@
     :root[data-skin="selene"] .composer-box:not([data-theme-expanded="true"]) .composer-footer { width: 100%; max-width: none; min-height: 44px; padding: 0 8px 8px; }
     :root[data-skin="selene"] #themeComposerPlus { position: static; }
     :root[data-skin="selene"] .composer-model-wrap:not(.composer-control-hidden) { margin-left: auto; }
+  }
+}
+
+/* A narrow desktop composer keeps the model picker usable: reasoning collapses to its icon. */
+@media (min-width: 641px) {
+  @container (max-width: 350px) {
+    :root[data-skin="selene"] .composer-left > #composerReasoningWrap {
+      flex: 0 0 36px;
+      width: 36px;
+    }
+    :root[data-skin="selene"] .composer-footer #composerReasoningChip {
+      width: 36px;
+      min-width: 36px;
+      max-width: 36px;
+      padding: 0;
+      justify-content: center;
+    }
+    :root[data-skin="selene"] .composer-footer :is(.composer-reasoning-label, .composer-reasoning-chevron) {
+      display: none !important;
+    }
   }
 }

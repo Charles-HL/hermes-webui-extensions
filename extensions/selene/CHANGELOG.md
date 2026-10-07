@@ -5,6 +5,8 @@
 - Keep the native Kanban, Skills and Settings search fields visible; only the chat list's search sits behind the toggle.
 - Apply the rounded menu shell to Core's conversation action menu (`.session-action-menu`).
 - Size the desktop reasoning chip for its icon and label, with ellipsis instead of clipping.
+- Collapse the reasoning chip to its icon when a narrow desktop composer would squeeze the model picker.
+- Round and reweight the conversation action menu's rows to match Selene's other menus.
 - Keep the fixed Provider quota caption when Core updates the chip's tooltip.
 - Replace the mobile dark screenshot with a demo-only capture.
 - Run the virtual-list regression behind the shared HTTP/WebSocket network guards with service workers blocked.
